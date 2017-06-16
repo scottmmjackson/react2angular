@@ -18,7 +18,6 @@ var __assign = (this && this.__assign) || Object.assign || function(t) {
     return t;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var fromPairs = require("lodash.frompairs");
 var ngcomponent_1 = require("ngcomponent");
 var React = require("react");
 var react_dom_1 = require("react-dom");
@@ -38,7 +37,10 @@ function react2angular(Class, bindingNames) {
         || (Class.propTypes && Object.keys(Class.propTypes))
         || [];
     return {
-        bindings: fromPairs(names.map(function (_) { return [_, '<']; })),
+        bindings: names.map(function (_) { return [_, '<']; }).reduce(function (acc, pair) {
+            acc[pair[0]] = pair[1];
+            return acc;
+        }, {}),
         controller: ['$element', (function (_super) {
                 __extends(class_1, _super);
                 function class_1($element) {

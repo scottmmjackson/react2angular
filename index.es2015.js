@@ -1,6 +1,5 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const fromPairs = require("lodash.frompairs");
 const ngcomponent_1 = require("ngcomponent");
 const React = require("react");
 const react_dom_1 = require("react-dom");
@@ -20,7 +19,10 @@ function react2angular(Class, bindingNames) {
         || (Class.propTypes && Object.keys(Class.propTypes))
         || [];
     return {
-        bindings: fromPairs(names.map(_ => [_, '<'])),
+        bindings: names.map(_ => [_, '<']).reduce((acc, pair) => {
+            acc[pair[0]] = pair[1];
+            return acc;
+        }, {}),
         controller: ['$element', class extends ngcomponent_1.default {
                 constructor($element) {
                     super();
